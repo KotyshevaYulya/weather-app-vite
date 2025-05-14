@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Sono:wght@200..800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="src/css/style.css">
+    <!-- <script src="./js/api.js" type="module"></script>
+    <script src="./js/script.js" type="module"></script>
+    <script src="./js/five-days.js" type="module"></script>
+    <script src="./js/search.js" type="module"></script> -->
+    <script type="module" src="/src/main.js"></script>
+</head>
+
+<body>
+    <header class="header">
+        <div class="container header-container">
+            <div class="search-tags-group">
+                <div class="search-bar">
+                    <input class="search-input" type="text" placeholder="Enter the city">
+                    <svg class="icon-location" width="22" height="22">
+                        <use href="/symbol-defs-2.svg#icon-icon-location"></use>
+                    </svg>
+                    <svg class="icon-star" width="22" height="22">
+                        <use href="/symbol-defs-2.svg#icon-Star-1"></use>
+                    </svg>
+                    <div>
+                        <ul class="city-suggestions">
+                        </ul>
+                        <!-- <button class="search-btn">🔍</button> -->
+                    </div>
+                </div>
+                <div class="tags">
+                    <ul class="tags-list">
+                        <li class="tags-list-item">
+                            <span>Kyiv</span>
+                            <svg class="icon-close" width="10" height="10">
+                                <use href="/symbol-defs-2.svg#icon-Vector-1"></use>
+                            </svg>
+                        </li>
+                        <li class="tags-list-item">
+                            <span>Paris</span>
+                            <svg class="icon-close" width="10" height="10">
+                                <use href="/symbol-defs-2.svg#icon-Vector-1"></use>
+                            </svg>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+            <div class="weather-wrapper-desktop">
+                <div class="btns-wrapper five-day-btns">
+                    <a href="index.html" class="change-page-btn today-btn">today</a>
+                    <a href="five-days.html" class="change-page-btn five-day-btn">5 days</a>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main class="five-days">
+        <section class="forecast">
+            <div class="container ">
+                <div class="forecast-card swiper forecast-swiper">
+                    <p class="forecast-card-city">Kyiv, UA</p>
+                    <ul class="forecast-card-list swiper-wrapper">
+                        <li class="forecast-card-item swiper-slide">
+                            <span class="day">Sunday</span>
+                            <span class="date">09 Feb</span>
+                            <svg class="icon forecast-card-icon" width="35" height="35">
+                                <use href="/symbol-defs-2.svg#icon-snow"></use>
+                            </svg>
+                            <ul class="forecast-card-temp-list">
+                                <li class="min-degrees">
+                                    <span class="min">min</span>
+                                    <span class="degrees">-2°</span>
+                                </li>
+                                <li class="max-degrees">
+                                    <span class="max">max</span>
+                                    <span class="degrees">1°</span>
+                                </li>
+                            </ul>
+                            <button class="forecast-card-details-btn">more info</button>
+                        </li>
+                        <li class="forecast-card-item swiper-slide">
+                            <span class="day">Sunday</span>
+                            <span class="date">09 Feb</span>
+                            <svg class="icon forecast-card-icon" width="35" height="35">
+                                <use href="/symbol-defs-2.svg#icon-snow"></use>
+                            </svg>
+                            <ul class="forecast-card-temp-list">
+                                <li class="min-degrees">
+                                    <span class="min">min</span>
+                                    <span class="degrees">-2°</span>
+                                </li>
+                                <li class="max-degrees">
+                                    <span class="max">max</span>
+                                    <span class="degrees">1°</span>
+                                </li>
+                            </ul>
+                            <button class="forecast-card-details-btn">more info</button>
+                        </li>
+                        <li class="forecast-card-item swiper-slide">
+                            <span class="day">Sunday</span>
+                            <span class="date">09 Feb</span>
+                            <svg class="icon forecast-card-icon" width="35" height="35">
+                                <use href="/symbol-defs-2.svg#icon-snow"></use>
+                            </svg>
+                            <ul class="forecast-card-temp-list">
+                                <li class="min-degrees">
+                                    <span class="min">min</span>
+                                    <span class="degrees">-2°</span>
+                                </li>
+                                <li class="max-degrees">
+                                    <span class="max">max</span>
+                                    <span class="degrees">1°</span>
+                                </li>
+                            </ul>
+                            <button class="forecast-card-details-btn">more info</button>
+                        </li>
+
+                        <li class="forecast-card-item swiper-slide">
+                            <span class="day">Sunday</span>
+                            <span class="date">09 Feb</span>
+                            <svg class="icon forecast-card-icon" width="35" height="35">
+                                <use href="/symbol-defs-2.svg#icon-snow"></use>
+                            </svg>
+                            <ul class="forecast-card-temp-list">
+                                <li class="min-degrees">
+                                    <span class="min">min</span>
+                                    <span class="degrees">-2°</span>
+                                </li>
+                                <li class="max-degrees">
+                                    <span class="max">max</span>
+                                    <span class="degrees">1°</span>
+                                </li>
+                            </ul>
+                            <button class="forecast-card-details-btn">more info</button>
+                        </li>
+
+                        <li class="forecast-card-item swiper-slide">
+                            <span class="day">Sunday</span>
+                            <span class="date">09 Feb</span>
+                            <svg class="icon forecast-card-icon" width="35" height="35">
+                                <use href="/symbol-defs-2.svg#icon-snow"></use>
+                            </svg>
+                            <ul class="forecast-card-temp-list">
+                                <li class="min-degrees">
+                                    <span class="min">min</span>
+                                    <span class="degrees">-2°</span>
+                                </li>
+                                <li class="max-degrees">
+                                    <span class="max">max</span>
+                                    <span class="degrees">1°</span>
+                                </li>
+                            </ul>
+                            <button class="forecast-card-details-btn">more info</button>
+                        </li>
+                    </ul>
+
+                    <!-- !----------forecast card pointers------- -->
+                    <div class="forecast-card-pointers">
+                        <button class="forecast-card-pointer forecast-card-pointer-left my-button-prev">
+                            <svg class="icon forecast-card-pointer-icon" width="6" height="8">
+                                <use href="/symbol-defs-2.svg#icon-pointer-right"></use>
+                            </svg>
+                        </button>
+                        <button class="forecast-card-pointer forecast-card-pointer-right my-button-next">
+                            <svg class="icon forecast-card-pointer-icon" width="6" height="8">
+                                <use href="/symbol-defs-2.svg#icon-pointer-left"></use>
+                            </svg>
+                        </button>
+                    </div>
+                    <!-- !--------------info card--------------- -->
+                    <div class="forecast-info-wrap swiper forecast-info-swiper">
+                        <ul class="forecast-info-list swiper-wrapper">
+                            <li class="forecast-info-item swiper-slide">
+                                <span class="time">00:00</span>
+                                <svg class="forecast-info-icon" width="35" height="35">
+                                    <use href="/symbol-defs-2.svg#icon-sun"></use>
+                                </svg>
+                                <span class="degrees">-2°</span>
+                                <ul class="forecast-additional-info-list">
+                                    <li class="forecast-additional-info-item">
+                                        <svg class="" width="20" height="20">
+                                            <use href="/symbol-defs-2.svg#wind"></use>
+                                        </svg>
+                                        <span class="forecast-additional-info-value">772 mm</span>
+                                    </li>
+                                    <li class="forecast-additional-info-item">
+                                        <svg class="" width="20" height="20">
+                                            <use href="/symbol-defs-2.svg#icon-humidity"></use>
+                                        </svg>
+                                        <span class="forecast-additional-info-value">54%</span>
+                                    </li>
+                                    <li class="forecast-additional-info-item">
+                                        <svg class="" width="20" height="20">
+                                            <use href="/symbol-defs-2.svg#icon-barometer"></use>
+                                        </svg>
+                                        <span class="forecast-additional-info-value">3.7 m/s</span>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class="forecast-info-item swiper-slide">
+                                <span class="time">00:00</span>
+                                <svg class="forecast-info-icon" width="35" height="35">
+                                    <use href="/symbol-defs-2.svg#icon-sun"></use>
+                                </svg>
+                                <span class="degrees">-2°</span>
+                                <ul class="forecast-additional-info-list">
+                                    <li class="forecast-additional-info-item">
+                                        <svg class="" width="20" height="20">
+                                            <use href="/symbol-defs-2.svg#wind"></use>
+                                        </svg>
+                                        <span class="forecast-additional-info-value">772 mm</span>
+                                    </li>
+                                    <li class="forecast-additional-info-item">
+                                        <svg class="" width="20" height="20">
+                                            <use href="/symbol-defs-2.svg#icon-humidity"></use>
+                                        </svg>
+                                        <span class="forecast-additional-info-value">54%</span>
+                                    </li>
+                                    <li class="forecast-additional-info-item">
+                                        <svg class="" width="20" height="20">
+                                            <use href="/symbol-defs-2.svg#icon-barometer"></use>
+                                        </svg>
+                                        <span class="forecast-additional-info-value">3.7 m/s</span>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class="forecast-info-item swiper-slide">
+                                <span class="time">00:00</span>
+                                <svg class="forecast-info-icon" width="35" height="35">
+                                    <use href="/symbol-defs-2.svg#icon-sun"></use>
+                                </svg>
+                                <span class="degrees">-2°</span>
+                                <ul class="forecast-additional-info-list">
+                                    <li class="forecast-additional-info-item">
+                                        <svg class="" width="20" height="20">
+                                            <use href="/symbol-defs-2.svg#wind"></use>
+                                        </svg>
+                                        <span class="forecast-additional-info-value">772 mm</span>
+                                    </li>
+                                    <li class="forecast-additional-info-item">
+                                        <svg class="" width="20" height="20">
+                                            <use href="/symbol-defs-2.svg#icon-humidity"></use>
+                                        </svg>
+                                        <span class="forecast-additional-info-value">54%</span>
+                                    </li>
+                                    <li class="forecast-additional-info-item">
+                                        <svg class="" width="20" height="20">
+                                            <use href="/symbol-defs-2.svg#icon-barometer"></use>
+                                        </svg>
+                                        <span class="forecast-additional-info-value">3.7 m/s</span>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class="forecast-info-item swiper-slide">
+                                <span class="time">00:00</span>
+                                <svg class="forecast-info-icon" width="35" height="35">
+                                    <use href="/symbol-defs-2.svg#icon-sun"></use>
+                                </svg>
+                                <span class="degrees">-2°</span>
+                                <ul class="forecast-additional-info-list">
+                                    <li class="forecast-additional-info-item">
+                                        <svg class="" width="20" height="20">
+                                            <use href="/symbol-defs-2.svg#wind"></use>
+                                        </svg>
+                                        <span class="forecast-additional-info-value">772 mm</span>
+                                    </li>
+                                    <li class="forecast-additional-info-item">
+                                        <svg class="" width="20" height="20">
+                                            <use href="/symbol-defs-2.svg#icon-humidity"></use>
+                                        </svg>
+                                        <span class="forecast-additional-info-value">54%</span>
+                                    </li>
+                                    <li class="forecast-additional-info-item">
+                                        <svg class="" width="20" height="20">
+                                            <use href="/symbol-defs-2.svg#icon-barometer"></use>
+                                        </svg>
+                                        <span class="forecast-additional-info-value">3.7 m/s</span>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <!-- <div class="swiper-scrollbar"></div> -->
+                        <div class="swiper-pagination"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="show-chart">
+            <button class="chart-btn">
+                <div class="chart-btn-wrap">
+                    <span>Show Chart</span>
+                    <div class="chart-btn-pointer">
+                        <svg class="charet-icon" width="10" height="6">
+                            <use href="/symbol-defs-2.svg#icon-chart-pointer"></use>
+                        </svg>
+                    </div>
+                </div>
+            </button>
+        </div>
+    </main>
+
+
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+</body>
+
+</html>

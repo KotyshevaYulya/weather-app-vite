@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Sono:wght@200..800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="src/css/style.css">
+    <!-- <script src="./js/api.js" type="module"></script>
+    <script src="./js/script.js" type="module"></script>
+    <script src="./js/search.js" type="module"></script> -->
+    <script type="module" src="/src/main.js"></script>
+
+</head>
+
+<body>
+    <header class="header">
+        <div class="container header-container">
+            <div class="search-tags-group">
+                <div class="search-bar">
+                    <input class="search-input" type="text" placeholder="Enter the city">
+                    <svg class="icon-location" width="22" height="22">
+                        <use href="/symbol-defs-2.svg#icon-icon-location"></use>
+                    </svg>
+                    <svg class="icon-star" width="22" height="22">
+                        <use href="/symbol-defs-2.svg#icon-Star-1"></use>
+                    </svg>
+                    <ul class="city-suggestions">
+                    </ul>
+                    <!-- <button class="search-btn">🔍</button> -->
+                </div>
+                <div class="tags">
+                    <ul class="tags-list">
+                        <li class="tags-list-item">
+                            <span>Kyiv</span>
+                            <svg class="icon-close" width="10" height="10">
+                                <use href="/symbol-defs-2.svg#icon-Vector-1"></use>
+                            </svg>
+                        </li>
+                        <li class="tags-list-item">
+                            <span>Paris</span>
+                            <svg class="icon-close" width="10" height="10">
+                                <use href="/symbol-defs-2.svg#icon-Vector-1"></use>
+                            </svg>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+            <!-- !weather-card------ -->
+
+            <div class="weather-wrapper-desktop">
+
+                <div class="weather-card">
+                    <div class="weather-card__header">
+                        <svg class="weather-card__icon">
+                            <use href="/symbol-defs-2.svg#icon-sun"></use>
+                        </svg>
+                        <h2 class="weather-card__city">Kyiv, UA</h2>
+                        <!-- <p class="weather-card__temp">-3°</p> -->
+                    </div>
+                    <div class="weather-card__range">
+                        <p class="weather-card__temp">-3°</p>
+                        <ul class="weather-card__range__list">
+                            <li class="weather-card__range__item weather-card__range__item--min">
+                                <span class="weather-card__min">min</span>
+                                <span class="weather-card__degrees weather-card__degrees_min">-2°</span>
+                            </li>
+                            <li class="weather-card__range__item  weather-card__range__item--max">
+                                <span class="weather-card__max">max</span>
+                                <span class="weather-card__degrees weather-card__degrees_max">1°</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="btns-wrapper">
+                    <a href="index.html" class="change-page-btn today-btn">today</a>
+                    <a href="five-days.html" class="change-page-btn five-day-btn">5 days</a>
+                </div>
+            </div>
+        </div>
+        </div>
+    </header>
+
+    <main class="home">
+        <div class="main-wrapper">
+            <div class="weather-space-filler"></div>
+
+            <!-- ! --------------------------data-today---------------------- -->
+            <section class="date-today">
+                <div class="container">
+                    <div class="date-card-wrapper">
+                        <div class="date-card">
+                            <ul class="date-card-list">
+                                <li class="date-card-item current-date-item">
+                                    <span class="current-date">8<span>th</span></span>
+                                    <span class="current-day">Sat</span>
+                                </li>
+                                <li class="date-card-item current-month-item">
+                                    <span class="current-month">February</span>
+                                    <span class="current-time">21:30:56</span>
+                                </li>
+                                <li class="date-card-item sunrise-item">
+                                    <div class="sunrise">
+                                        <svg class="sunrise-icon" width="20" height="20">
+                                            <use href="/symbol-defs-2.svg#icon-sunrise"></use>
+                                        </svg>
+                                        <span class="sunrise-time">07:04</span>
+                                    </div>
+                                    <div class="sunset">
+                                        <svg class="sunset-icon" width="20" height="20">
+                                            <use href="/symbol-defs-2.svg#icon-sunset"></use>
+                                        </svg>
+                                        <span class="sunset-time">17:05</span>
+                                    </div>
+                                </li>
+                            </ul>
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="date-space-filler"></div>
+            <!-- ! --------------------------quote---------------------- -->
+            <section class="quote-section">
+                <div class="container quote-container">
+                    <blockquote class="quote">
+                        Who cares about the clouds when we're together? Just sing a song and bring the sunny weather.
+                        <cite class="quote-author">Dale Evans</cite>
+                    </blockquote>
+                </div>
+            </section>
+        </div>
+    </main>
+</body>
+
+</html>
