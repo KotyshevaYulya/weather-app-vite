@@ -10,6 +10,9 @@ const suggestionsList = document.querySelector(".city-suggestions");
 const forecastForFiveDays = document.querySelector(".forecast-card-list");
 
 
+searchInput.addEventListener("focus", () => { searchInput.select() })
+
+
 searchInput.addEventListener("input", handlerInput);
 
 async function handlerInput() {
