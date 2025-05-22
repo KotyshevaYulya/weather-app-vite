@@ -4,17 +4,24 @@ import { getWeatherForFiveDays } from "./api.js";
 let forecastSwiper = null;
 let infoSwiper = null;
 
+export function slideToFirstCard() {
+    if (forecastSwiper && forecastSwiper.slideTo) {
+        forecastSwiper.slideTo(0);
+    }
+}
+
 function initForecastSwiper() {
     const screenWidth = window.innerWidth;
     const prevBtn = document.querySelector('.my-button-prev');
     const nextBtn = document.querySelector('.my-button-next');
 
     if (screenWidth < 768) {
-        if (forecastSwiper) return; // вже є — нічого не робимо
+        if (forecastSwiper) return;
 
         forecastSwiper = new Swiper('.forecast-swiper', {
-            slidesPerView: 3,
-            spaceBetween: 17,
+            slidesPerView: "auto",
+            spaceBetween: 35,
+            centeredSlides: false,
             freeMode: true,
             on: {
                 init: updateNavButtons,
@@ -32,7 +39,7 @@ function initForecastSwiper() {
         });
 
     } else {
-        // При ширині >=768px — видаляємо свайпер, якщо він був
+
         if (forecastSwiper) {
             forecastSwiper.destroy(true, true);
             forecastSwiper = null;
@@ -85,7 +92,6 @@ if (forecastList) {
         const allBtns = document.querySelectorAll(".forecast-card-details-btn");
         const card = e.target.closest("li");
         const date = card.dataset.date;
-        let infoSwiper = null;
 
 
 
@@ -133,29 +139,45 @@ if (forecastList) {
                 infoWrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }, 100);
 
+
             if (infoSwiper) {
                 infoSwiper.destroy(true, true);
                 infoSwiper = null;
             }
 
-            infoSwiper = new Swiper(".forecast-info-swiper", {
-                slidesPerView: 2,
-                spaceBetween: 30,
-                freeMode: true,
-                pagination: {
-                    el: ".swiper-pagination",
-                    clickable: true,
-                    hide: false,
-                },
-                breakpoints: {
-                    768: {
-                        slidesPerView: 5,
+
+            setTimeout(() => {
+                infoSwiper = new Swiper(".forecast-info-swiper", {
+                    slidesPerView: 2,
+                    spaceBetween: 30,
+                    freeMode: true,
+                    watchOverflow: true,
+                    pagination: {
+                        el: ".swiper-pagination",
+                        clickable: true,
+                        hide: false,
                     },
-                    1280: {
-                        slidesPerView: 8,
+                    breakpoints: {
+                        768: {
+                            slidesPerView: 5,
+                        },
+                        1280: {
+                            slidesPerView: 8,
+                        },
                     },
-                },
-            });
+                    on: {
+                        init: function () {
+                            this.slideTo(0);
+                        },
+                    },
+                });
+
+
+                setTimeout(() => {
+                    infoSwiper.slideTo(0);
+                }, 150);
+            }, 50);
+
 
         } catch (error) {
             console.error("Помилка при завантаженні деталізації по годинах:", error);

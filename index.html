@@ -12,14 +12,11 @@
         href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Sono:wght@200..800&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="src/css/style.css">
-    <!-- <script src="./js/api.js" type="module"></script>
-    <script src="./js/script.js" type="module"></script>
-    <script src="./js/search.js" type="module"></script> -->
     <script type="module" src="/src/main.js"></script>
 
 </head>
 
-<body class="page-today">
+<body class="page-today preload">
     <header class="header">
         <div class="container header-container">
             <div class="search-tags-group">
@@ -47,9 +44,10 @@
 
                 <div class="weather-card">
                     <div class="weather-card__header">
-                        <svg class="weather-card__icon">
+                        <!-- <svg class="weather-card__icon">
                             <use href="/symbol-defs-2.svg#icon-sun"></use>
-                        </svg>
+                        </svg> -->
+                        <img src="" alt="" class="weather-card__icon">
                         <h2 class="weather-card__city">Kyiv, UA</h2>
                         <!-- <p class="weather-card__temp">-3°</p> -->
                     </div>
@@ -69,7 +67,7 @@
                 </div>
 
                 <div class="btns-wrapper main-page-btn-wrap">
-                    <a href="/" class="change-page-btn today-btn">today</a>
+                    <a href="/" class="change-page-btn today-btn current">today</a>
                     <a href="/five-days" class="change-page-btn five-day-btn">5 days</a>
                 </div>
             </div>

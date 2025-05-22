@@ -106,10 +106,15 @@
     box-sizing: border-box;
 }
 
+html {
+    height: 100%;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+}
 
 body {
     position: relative;
-    min-height: 100vh;
+    min-height: 100dvh;
     background-attachment: fixed;
     font-family: "Lato", "Montserrat", sans-serif;
     background-color: rgb(143, 162, 191);
@@ -121,6 +126,9 @@ body {
     background-size: cover;
     background-position: center;
     position: relative;
+
+    overflow-x: hidden;
+    overscroll-behavior-y: contain;
 }
 
 
@@ -452,6 +460,16 @@ blockquote {
     }
 }
 
+.change-page-btn.current {
+    pointer-events: none;
+    cursor: default;
+    background-color: rgba(255, 255, 255, 0.3);
+    /* або щось мʼякше */
+    color: #aaa;
+    /* можна залишити як є, або під свою тему */
+    font-weight: bold;
+    opacity: 0.8;
+}
 
 .today-btn {
     background-color: var(--current-btn-bg);
@@ -469,6 +487,7 @@ blockquote {
 }
 
 /* !-----------------------------------main---------------------- */
+
 
 /* !------------------------weather-card---------------------- */
 
@@ -499,8 +518,8 @@ blockquote {
 }
 
 .weather-card__icon {
-    width: 2.188rem;
-    height: 2.188rem;
+    width: 3rem;
+    height: 3rem;
 }
 
 .weather-card__city {
@@ -922,7 +941,7 @@ blockquote {
 }
 
 .five-days .forecast-card-item {
-    width: 64px;
+    width: 70px;
     flex-shrink: 0;
     display: flex;
     flex-direction: column;
@@ -1225,3 +1244,30 @@ blockquote {
 
 
 /* ! */
+
+body.preload .weather-card,
+body.preload .main-wrapper,
+body.preload .date-card-wrapper,
+body.preload .quote-section,
+body.preload .forecast,
+body.preload .forecast-info-wrap,
+body.preload .forecast-card-pointers,
+body.preload .weather-wrapper-desktop {
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+}
+
+body:not(.preload) .weather-card,
+body:not(.preload) .main-wrapper,
+body:not(.preload) .date-card-wrapper,
+body:not(.preload) .quote-section,
+body:not(.preload) .forecast,
+body:not(.preload) .forecast-info-wrap,
+body:not(.preload) .forecast-card-pointers,
+body:not(.preload) .weather-wrapper-desktop {
+    opacity: 1;
+    pointer-events: auto;
+    visibility: visible;
+    transition: opacity 0.4s ease;
+}

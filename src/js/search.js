@@ -4,6 +4,7 @@ import {
     getDefaultCity,
     getWeatherForFiveDays
 } from "./api.js";
+import { slideToFirstCard } from "./five-days";
 
 import Swiper from 'swiper';
 import 'swiper/css';
@@ -101,6 +102,7 @@ async function handlerSuggestions(event) {
 
                 const markup = renderWetherFiveDays(dailyForecasts);
                 forecastForFiveDays.innerHTML = markup;
+                slideToFirstCard();
             }
 
             const imageUrl = await getCityImage(selectedCity);
@@ -123,7 +125,9 @@ async function handlerSuggestions(event) {
 
 window.addEventListener("load", async () => {
     const storedCity = JSON.parse(localStorage.getItem("selectedCity"));
-    loadDefaultCity(storedCity?.name || "Lviv");
+    await loadDefaultCity(storedCity?.name || "Lviv");
+
+    document.body.classList.remove('preload');
 
     const imageUrl = await getCityImage(storedCity?.name || "Lviv");
     if (imageUrl) {
@@ -194,7 +198,7 @@ async function showWeatherByCoords(lat, lon) {
             const dailyForecasts = getDailySummary(grouped);
             const markup = renderWetherFiveDays(dailyForecasts);
             forecastForFiveDays.innerHTML = markup;
-
+            slideToFirstCard();
         }
 
     } catch (error) {
@@ -248,6 +252,14 @@ function getDailySummary(forecastGrouped) {
 async function renderCurrentWeather(data) {
     const lat = data.coord.lat;
     const lon = data.coord.lon;
+    const iconCode = data.weather[0].icon;
+    const iconUrl = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
+    const iconElement = document.querySelector(".weather-card__icon");
+
+    if (iconElement) {
+        iconElement.setAttribute("src", iconUrl);
+        iconElement.setAttribute("alt", data.weather[0].description);
+    }
 
     document.querySelector(".weather-card__city").textContent = `${data.name}, ${data.sys.country}`;
     document.querySelector(".weather-card__temp").textContent = `${Math.round(data.main.temp)}°`;
