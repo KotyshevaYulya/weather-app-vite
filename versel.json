@@ -1,12 +1,12 @@
 {
     "rewrites": [
         {
-            "source": "/five-days",
-            "destination": "/five-days.html"
-        },
-        {
             "source": "/",
             "destination": "/index.html"
+        },
+        {
+            "source": "/five-days",
+            "destination": "/five-days.html"
         }
     ]
 }

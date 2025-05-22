@@ -78,10 +78,10 @@ async function handlerSuggestions(event) {
             const currentWeather = await getCurrentWeather(lat, lon);
             console.log("currentWeather:", currentWeather);
 
-            if (document.querySelector(".weather-card")) {
+            if (document.body.classList.contains("page-today")) {
                 renderCurrentWeather(currentWeather);
 
-            } else if (document.querySelector(".forecast-card-list")) {
+            } else if (document.body.classList.contains("page-five-days")) {
                 infoWrap.classList.remove("open");
 
                 document.querySelectorAll('.forecast-card-details-btn.active')
@@ -171,11 +171,11 @@ async function showWeatherByCoords(lat, lon) {
             }
         }
 
-        if (document.querySelector(".weather-card")) {
+        if (document.body.classList.contains("page-today")) {
             const currentWeather = await getCurrentWeather(lat, lon);
             renderCurrentWeather(currentWeather);
 
-        } else if (document.querySelector(".forecast-card-list")) {
+        } else if (document.body.classList.contains("page-five-days")) {
             infoWrap.classList.remove("open");
 
             document.querySelectorAll('.forecast-card-details-btn.active')
