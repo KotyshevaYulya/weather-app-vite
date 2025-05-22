@@ -114,7 +114,10 @@ html {
 
 body {
     position: relative;
-    min-height: 100dvh;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
     background-attachment: fixed;
     font-family: "Lato", "Montserrat", sans-serif;
     background-color: rgb(143, 162, 191);
@@ -487,7 +490,9 @@ blockquote {
 }
 
 /* !-----------------------------------main---------------------- */
-
+main {
+    flex: 1;
+}
 
 /* !------------------------weather-card---------------------- */
 
@@ -1244,6 +1249,15 @@ blockquote {
 
 
 /* ! */
+
+.footer-signature {
+    height: 50px;
+    color: #fff;
+    text-align: center;
+    line-height: 50px;
+    font-size: 14px;
+    opacity: 0.8;
+}
 
 body.preload .weather-card,
 body.preload .main-wrapper,
