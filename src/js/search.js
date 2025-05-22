@@ -78,12 +78,10 @@ async function handlerSuggestions(event) {
             const currentWeather = await getCurrentWeather(lat, lon);
             console.log("currentWeather:", currentWeather);
 
-            if (window.location.pathname === "/index" ||
-                window.location.pathname.includes("index.html")) {
+            if (document.querySelector(".weather-card")) {
                 renderCurrentWeather(currentWeather);
 
-            } else if (window.location.pathname.includes("five-days") ||
-                window.location.pathname.includes("five-days.html")) {
+            } else if (document.querySelector(".forecast-card-list")) {
                 infoWrap.classList.remove("open");
 
                 document.querySelectorAll('.forecast-card-details-btn.active')
@@ -173,13 +171,11 @@ async function showWeatherByCoords(lat, lon) {
             }
         }
 
-        if (window.location.pathname === "/index" ||
-            window.location.pathname.includes("index.html")) {
+        if (document.querySelector(".weather-card")) {
             const currentWeather = await getCurrentWeather(lat, lon);
             renderCurrentWeather(currentWeather);
 
-        } else if (window.location.pathname.includes("five-days") ||
-            window.location.pathname.includes("five-days.html")) {
+        } else if (document.querySelector(".forecast-card-list")) {
             infoWrap.classList.remove("open");
 
             document.querySelectorAll('.forecast-card-details-btn.active')
