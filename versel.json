@@ -1,12 +1,15 @@
 {
-    "rewrites": [
+    "routes": [
         {
-            "source": "/",
-            "destination": "/index.html"
+            "handle": "filesystem"
         },
         {
-            "source": "/five-days",
-            "destination": "/five-days.html"
+            "src": "/five-days",
+            "dest": "/five-days.html"
+        },
+        {
+            "src": "/(.*)",
+            "dest": "/index.html"
         }
     ]
 }
