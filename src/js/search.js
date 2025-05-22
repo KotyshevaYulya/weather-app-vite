@@ -5,12 +5,20 @@ import {
     getWeatherForFiveDays
 } from "./api.js";
 
+import Swiper from 'swiper';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import { Navigation } from 'swiper/modules';
+Swiper.use([Navigation]);
+
 const searchInput = document.querySelector(".search-input");
 const suggestionsList = document.querySelector(".city-suggestions");
 const forecastForFiveDays = document.querySelector(".forecast-card-list");
+const infoWrap = document.querySelector(".forecast-info-wrap ");
+import { getCityImage } from './api.js';
 
 
-searchInput.addEventListener("focus", () => { searchInput.select() })
+// searchInput.addEventListener("focus", () => { searchInput.select() })
 
 
 searchInput.addEventListener("input", handlerInput);
@@ -57,9 +65,10 @@ suggestionsList.addEventListener("click", handlerSuggestions);
 
 async function handlerSuggestions(event) {
     if (event.target.tagName === "LI") {
-        const selectedCity = event.target.textContent;
         const lat = event.target.dataset.lat;
         const lon = event.target.dataset.lon;
+        const selectedCity = event.target.textContent;
+        localStorage.setItem("selectedCity", JSON.stringify({ name: selectedCity, lat: lat, lon: lon }));
 
         suggestionsList.innerHTML = "";
         suggestionsList.style.display = 'none';
@@ -70,7 +79,16 @@ async function handlerSuggestions(event) {
 
             if (window.location.pathname.includes("index.html")) {
                 renderCurrentWeather(currentWeather);
+
             } else if (window.location.pathname.includes("five-days.html")) {
+                infoWrap.classList.remove("open");
+
+                document.querySelectorAll('.forecast-card-details-btn.active')
+                    .forEach(btn => {
+                        btn.classList.remove('active');
+                        btn.textContent = "More info";
+                    });
+
                 const currentWeather = await getCurrentWeather(lat, lon);
                 document.querySelector(".forecast-card-city").textContent = `${currentWeather.name}, ${currentWeather.sys.country}`
 
@@ -79,17 +97,19 @@ async function handlerSuggestions(event) {
 
                 const grouped = groupForecastByDay(forecastList);
                 const dailyForecasts = getDailySummary(grouped);
-                console.log(dailyForecasts);
 
                 const markup = renderWetherFiveDays(dailyForecasts);
                 forecastForFiveDays.innerHTML = markup;
+            }
 
-                const forecastSwiper = new Swiper('.forecast-swiper', {
-                    slidesPerView: 3,
-                    spaceBetween: 17,
-                    freeMode: true,
-                });
-
+            const imageUrl = await getCityImage(selectedCity);
+            if (imageUrl) {
+                document.body.style.backgroundImage = `
+                linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0)), 
+                url(${imageUrl})`;
+                document.body.style.backgroundSize = 'cover';
+                document.body.style.backgroundPosition = 'center';
+                document.body.style.backgroundRepeat = 'no-repeat';
             }
 
         } catch (error) {
@@ -100,12 +120,25 @@ async function handlerSuggestions(event) {
 
 // !------------------load default city---------------
 
-window.addEventListener("load", () => {
-    loadDefaultCity();
+window.addEventListener("load", async () => {
+    const storedCity = JSON.parse(localStorage.getItem("selectedCity"));
+    loadDefaultCity(storedCity?.name || "Lviv");
+
+    const imageUrl = await getCityImage(storedCity?.name || "Lviv");
+    if (imageUrl) {
+        document.body.style.backgroundImage = `
+                linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0)), 
+                url(${imageUrl})`;
+        document.body.style.backgroundSize = 'cover';
+        document.body.style.backgroundPosition = 'center';
+        document.body.style.backgroundRepeat = 'no-repeat';
+    }
+
 });
 
-async function loadDefaultCity(cityName = "Lviv") {
+async function loadDefaultCity(cityName) {
     searchInput.value = cityName;
+
 
     try {
         const city = await getDefaultCity(cityName);
@@ -121,11 +154,36 @@ async function loadDefaultCity(cityName = "Lviv") {
 }
 
 async function showWeatherByCoords(lat, lon) {
+
     try {
+        const selectedCity = JSON.parse(localStorage.getItem("selectedCity"));
+
+        if (selectedCity?.name) {
+            const imageUrl = await getCityImage(selectedCity.name);
+            if (imageUrl) {
+                document.body.style.backgroundImage = `
+                    linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0)), 
+                    url(${imageUrl})`;
+                document.body.style.backgroundSize = 'cover';
+                document.body.style.backgroundPosition = 'center';
+                document.body.style.backgroundRepeat = 'no-repeat';
+            }
+        }
+
         if (window.location.pathname.includes("index.html")) {
             const currentWeather = await getCurrentWeather(lat, lon);
             renderCurrentWeather(currentWeather);
+
         } else if (window.location.pathname.includes("five-days.html")) {
+            infoWrap.classList.remove("open");
+
+            document.querySelectorAll('.forecast-card-details-btn.active')
+                .forEach(btn => {
+                    btn.classList.remove('active');
+                    btn.textContent = "More info";
+                });
+
+
             const currentWeather = await getCurrentWeather(lat, lon);
             document.querySelector(".forecast-card-city").textContent = `${currentWeather.name}, ${currentWeather.sys.country}`
 
@@ -133,7 +191,6 @@ async function showWeatherByCoords(lat, lon) {
             const forecastList = await getWeatherForFiveDays(lat, lon);
             const grouped = groupForecastByDay(forecastList);
             const dailyForecasts = getDailySummary(grouped);
-            console.log(dailyForecasts);
             const markup = renderWetherFiveDays(dailyForecasts);
             forecastForFiveDays.innerHTML = markup;
 
@@ -167,12 +224,19 @@ function getDailySummary(forecastGrouped) {
     for (let day in forecastGrouped) {
         const entries = forecastGrouped[day];
 
-        const target = entries.reduce((closest, item) => {
+        const tempsMin = entries.map(entry => entry.main.temp_min);
+        const tempsMax = entries.map(entry => entry.main.temp_max);
+
+        const averageEntry = entries.reduce((closest, item) => {
             const hour = new Date(item.dt * 1000).getHours();
             return Math.abs(hour - 12) < Math.abs(new Date(closest.dt * 1000).getHours() - 12) ? item : closest;
         });
 
-        summary.push(target);
+
+        averageEntry.main.temp_min = Math.min(...tempsMin);
+        averageEntry.main.temp_max = Math.max(...tempsMax);
+
+        summary.push(averageEntry);
     }
 
     return summary;
@@ -180,22 +244,58 @@ function getDailySummary(forecastGrouped) {
 
 // !--------------------------------
 
-function renderCurrentWeather(data) {
+async function renderCurrentWeather(data) {
+    const lat = data.coord.lat;
+    const lon = data.coord.lon;
+
     document.querySelector(".weather-card__city").textContent = `${data.name}, ${data.sys.country}`;
-    document.querySelector(".weather-card__temp").textContent = `${Math.round(data.main.temp)}`;
-    document.querySelector(".weather-card__degrees_min").textContent = `${Math.round(data.main.temp_min)}`;
-    document.querySelector(".weather-card__degrees_max").textContent = `${Math.round(data.main.temp_max)}`;
+    document.querySelector(".weather-card__temp").textContent = `${Math.round(data.main.temp)}°`;
 
-    const now = new Date();
+    const forecast = await getWeatherForFiveDays(lat, lon)
+    const today = new Date().toISOString().split("T")[0];
+    const todayForecast = forecast.filter(item => {
+        const itemDate = new Date(item.dt * 1000).toISOString().split("T")[0];
+        return itemDate === today;
+    });
 
-    document.querySelector(".current-date").innerHTML = `${now.getDate()}<span class="suffix">th</span>`;
-    document.querySelector(".current-day").textContent = `${now.toLocaleDateString('en-Us', { weekday: "short" })}`;
-    document.querySelector(".current-month").textContent = `${now.toLocaleDateString('en-Us', { month: "long" })}`;
-    document.querySelector(".current-time").textContent = `${now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" })}`;
+    const tempsMin = todayForecast.map(entry => entry.main.temp_min);
+    const tempsMax = todayForecast.map(entry => entry.main.temp_max);
+
+    const minTemp = Math.round(Math.min(...tempsMin));
+    const maxTemp = Math.round(Math.max(...tempsMax));
+
+
+    document.querySelector(".weather-card__degrees_min").textContent = `${minTemp}°`;
+    document.querySelector(".weather-card__degrees_max").textContent = `${maxTemp}°`;
+
+
+    function updateLiveClock() {
+        const now = new Date();
+        const localOffsetSec = now.getTimezoneOffset() * 60;
+        const targetOffsetSec = data.timezone;
+
+        const diffInMs = (targetOffsetSec + localOffsetSec) * 1000;
+        const currentCityTime = new Date(now.getTime() + diffInMs);
+
+        document.querySelector(".current-date").innerHTML = `${currentCityTime.getDate()}<span class="suffix">th</span>`;
+        document.querySelector(".current-day").textContent = currentCityTime.toLocaleDateString('en-Us', { weekday: "short" });
+        document.querySelector(".current-month").textContent = currentCityTime.toLocaleDateString('en-Us', { month: "long" });
+        document.querySelector(".current-time").textContent = currentCityTime.toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit"
+        });
+    }
+
+    updateLiveClock();
+
+    clearInterval(window.cityClockInterval); // 
+    window.cityClockInterval = setInterval(updateLiveClock, 1000);
 
 
     const sunrise = new Date(data.sys.sunrise * 1000);
     const sunset = new Date(data.sys.sunset * 1000);
+
 
     document.querySelector(".sunrise-time").textContent = `${sunrise.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`;
     document.querySelector(".sunset-time").textContent = `${sunset.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`;
@@ -210,7 +310,7 @@ function renderWetherFiveDays(data) {
 
     return data.map((day) => {
         const currentDay = new Date(day.dt * 1000);
-        return ` <li class="forecast-card-item swiper-slide">
+        return ` <li class="forecast-card-item swiper-slide" data-date="${day.dt}">
                             <span class="day">${currentDay.toLocaleDateString('en-Us', { weekday: "long" })}</span>
                             <span class="date">${currentDay.getDate()} ${currentDay.toLocaleDateString("en-US", { weekday: "short" })}</span>
                             <img
@@ -231,8 +331,192 @@ function renderWetherFiveDays(data) {
                                     <span class="degrees">${Math.round(day.main.temp_max)}°</span>
                                 </li>
                             </ul>
-                            <button class="forecast-card-details-btn">more info</button>
+                            <button class="forecast-card-details-btn">More info</button>
                         </li>`
     }).join("")
 
+};
+
+// !-------------input focus----------------------
+
+
+if (searchInput) {
+    searchInput.addEventListener('focus', (e) => {
+        setTimeout(() => {
+            e.target.select();
+        }, 10);
+    });
 }
+
+
+// !------------- input keydown ------------
+
+
+let activeIndex = -1;
+
+searchInput.addEventListener("keydown", async (e) => {
+    const items = suggestionsList.querySelectorAll("li");
+
+    if (e.key === "ArrowDown") {
+        activeIndex++;
+        if (activeIndex >= items.length) activeIndex = 0;
+        updateActiveItem(items, activeIndex);
+    }
+
+    if (e.key === "ArrowUp") {
+        activeIndex--;
+        if (activeIndex < 0) activeIndex = items.length - 1;
+        updateActiveItem(items, activeIndex);
+    }
+
+    if (e.key === 'Enter') {
+        if (activeIndex >= 0 && items[activeIndex]) {
+            const selectedCity = items[activeIndex].textContent;
+            searchInput.value = selectedCity;
+            // console.log(items[activeIndex]);
+            const fakeEvent = { target: items[activeIndex] };
+            handlerSuggestions(fakeEvent);
+
+            const imageUrl = await getCityImage(selectedCity);
+            if (imageUrl) {
+                document.body.style.backgroundImage = `
+                linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0)), 
+                url(${imageUrl})`;
+                document.body.style.backgroundSize = 'cover';
+                document.body.style.backgroundPosition = 'center';
+                document.body.style.backgroundRepeat = 'no-repeat';
+            }
+        };
+    }
+})
+
+function updateActiveItem(items, index) {
+    items.forEach((item, i) => {
+        if (i === index) {
+            item.classList.add("selected");
+        } else {
+            item.classList.remove("selected");
+        }
+    });
+}
+
+
+// !----------- add to favorites --------
+
+const favoritesBtn = document.querySelector(".icon-star");
+const favoriteList = document.querySelector(".tags-list");
+let favoriteCities = JSON.parse(localStorage.getItem("favorites")) || [];
+
+favoritesBtn.addEventListener("click", handlerFavorite);
+
+async function handlerFavorite() {
+    const query = searchInput.value.trim();
+    const isAlreadyAdded = favoriteCities.some(city => city.name === query);
+    if (!query || isAlreadyAdded) return;
+
+    const cities = await getCoordinates(query);
+    const city = cities[0];
+
+    const favorite = {
+        name: query,
+        lat: city.lat,
+        lon: city.lon,
+    }
+
+    favoriteCities.push(favorite);
+    localStorage.setItem("favorites", JSON.stringify(favoriteCities));
+
+    renderFavoriteTags();
+}
+
+
+favoriteList.addEventListener("click", (e) => {
+    if (!e.target.closest("li")) return;
+    const currentTag = e.target.closest("li");
+    const city = currentTag.querySelector("span").textContent.trim();
+
+    if (e.target.closest(".icon-close")) {
+        favoriteCities = favoriteCities.filter(e =>
+            e.name !== city
+        );
+        localStorage.setItem("favorites", JSON.stringify(favoriteCities));
+
+        renderFavoriteTags();
+    } else if (currentTag) {
+        const lat = currentTag.dataset.lat;
+        const lon = currentTag.dataset.lon;
+
+        searchInput.value = city;
+
+        localStorage.setItem("selectedCity", JSON.stringify(
+            {
+                name: city,
+                lat,
+                lon,
+            }
+        ))
+
+        showWeatherByCoords(lat, lon);
+
+    }
+})
+
+function renderFavoriteTags() {
+    const favoriteTags = JSON.parse(localStorage.getItem("favorites")) || [];
+    const tagsWrap = document.querySelector(".tags")
+    const tagList = document.querySelector(".tags-list");
+    const scrollBtn = document.querySelector(".scroll-right");
+
+    tagList.innerHTML = "";
+
+    if (favoriteTags.length === 0) {
+        tagsWrap.style.display = "none";
+        scrollBtn.style.display = "none";
+        return;
+    }
+
+    tagsWrap.style.display = "flex";
+
+    favoriteTags.forEach(city => {
+        favoriteList.insertAdjacentHTML("beforeend",
+            `
+            <li class="tags-list-item" data-lat="${city.lat}" data-lon="${city.lon}">
+                <span> ${city.name}</span >
+                <svg class="icon-close" width="10" height="10">
+                    <use href="/symbol-defs-2.svg#icon-Vector-1"></use>
+                </svg>
+            </li>
+            `)
+    });
+
+    setTimeout(checkTagScrollability, 100);
+};
+
+function checkTagScrollability() {
+    const tagList = document.querySelector(".tags-list");
+    const scrollBtn = document.querySelector(".scroll-right");
+
+    if (!tagList || !scrollBtn) return;
+
+    const scrollable = tagList.scrollWidth - tagList.clientWidth > 5;
+    scrollBtn.style.display = scrollable ? "block" : "none";
+}
+
+window.addEventListener("resize", checkTagScrollability);
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    favoriteCities = JSON.parse(localStorage.getItem("favorites")) || [];
+
+    renderFavoriteTags();
+});
+
+const tagList = document.querySelector(".tags-list");
+
+document.querySelector(".scroll-right").addEventListener("click", () => {
+    tagList.scrollBy({ left: 150, behavior: "smooth" });
+});
+
+
+    //  !-----------------
+

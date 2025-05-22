@@ -1,4 +1,5 @@
 :root {
+    --accent-color: #ff6b09bb;
     ----font-primary: "Lato";
     --color-bg-linear: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
     --main-color: #27384A;
@@ -15,7 +16,7 @@
     --weather-card-text: #767D85;
     --weather-card-degrees: #FFFFFF;
     --current-btn-bg: #FFFFFF;
-    --today-btn-bg: rgba(255, 255, 255, 0.5);
+    --today-btn-bg: rgba(255, 255, 255, 0.6);
     --today-btn-text: #000000;
     --five-days-btn-bg: rgba(255, 255, 255, 0.5);
     --five-days-btn-text: #000000;
@@ -44,7 +45,7 @@
     --forecast-card-min-font-size-mob: 0.75rem;
     --forecast-card-min-font-size-tab: 0.875rem;
     --forecast-card-min-font-size-des: 1.125rem;
-    --forecast-card-min-color: #767D85;
+    --forecast-card-min-color: #9ba0a6;
     /* degrees */
     --forecast-card-degrees-font-size-mob: 1rem;
     --forecast-card-degrees-font-size-tab: 1.125rem;
@@ -107,6 +108,9 @@
 
 
 body {
+    position: relative;
+    min-height: 100vh;
+    background-attachment: fixed;
     font-family: "Lato", "Montserrat", sans-serif;
     background-color: rgb(143, 162, 191);
     margin: 0;
@@ -228,9 +232,6 @@ blockquote {
     }
 }
 
-.search-bar {
-    position: relative;
-}
 
 .search-input {
 
@@ -262,6 +263,11 @@ blockquote {
     color: var(--input-text-color);
 }
 
+.selected {
+    background-color: #eee;
+    font-weight: bold;
+}
+
 
 .icon-location {
     position: absolute;
@@ -279,6 +285,12 @@ blockquote {
     right: 20px;
     top: 50%;
     transform: translateY(-50%);
+    cursor: pointer;
+    transition: 500ms;
+}
+
+.icon-star:hover {
+    stroke: #FF6B09;
 }
 
 
@@ -301,10 +313,11 @@ blockquote {
 }
 
 .tags {
-    display: flex;
+    display: none;
+    width: 100%;
+    overflow: hidden;
     padding-left: 1rem;
     margin-top: 1rem;
-    margin-bottom: 2.5rem;
 }
 
 @media screen and (min-width: 1280px) {
@@ -321,16 +334,25 @@ blockquote {
 
 .tags-list {
     display: flex;
+    overflow-x: auto;
     gap: 0.625rem;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
 }
 
 .tags-list-item {
+    flex-shrink: 0;
+    scroll-snap-align: start;
+    /* white-space: nowrap;
+    -ms-overflow-style: none;
+    scrollbar-width: none; */
 
     font-style: normal;
     font-weight: 400;
     font-size: var(--font-xxs);
     line-height: 14px;
-    text-decoration-line: underline;
+    /* text-decoration-line: underline; */
 
     color: var(--tags-text-color);
 
@@ -338,10 +360,41 @@ blockquote {
     align-items: center;
     justify-content: center;
     min-width: 78px;
-    height: 28px;
-    padding: 12px 6px;
+    min-height: 28px;
+    padding: 10px 6px;
     background-color: var(--tags-color);
-    border-radius: 20px;
+    border-radius: 15px;
+    transition: 500ms;
+    cursor: pointer;
+}
+
+.tags-list::-webkit-scrollbar {
+    display: none;
+}
+
+.scroll-right {
+    width: 35px;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 5px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border: none;
+    border-radius: 50%;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.5s ease;
+}
+
+.scroll-right:hover {
+    background-color: rgba(255, 255, 255, 0.4);
+}
+
+
+.tags-list-item:hover {
+    background-color: #FF6B09;
 }
 
 .tags-list-item span {
@@ -349,7 +402,14 @@ blockquote {
 }
 
 .icon-close {
+    width: 12px;
+    height: 12px;
     stroke: var(--tags-icon-color);
+    transition: 500ms;
+}
+
+.icon-close:hover {
+    stroke: #fff;
 }
 
 
@@ -357,6 +417,10 @@ blockquote {
     display: flex;
     gap: 18px;
     justify-content: center;
+}
+
+.five-day-btns {
+    margin-top: 1.875rem;
 }
 
 .change-page-btn {
@@ -391,6 +455,17 @@ blockquote {
 
 .today-btn {
     background-color: var(--current-btn-bg);
+
+}
+
+.main-page-btn-wrap>.five-day-btn {
+    transition: 500ms;
+}
+
+.main-page-btn-wrap>.five-day-btn:hover {
+    transform: scale(1.1);
+    background-color: var(--accent-color);
+    color: #fff;
 }
 
 /* !-----------------------------------main---------------------- */
@@ -409,6 +484,7 @@ blockquote {
     justify-content: center;
 
     margin-bottom: 2rem;
+    margin-top: 1.875rem;
     /* height: 193px; */
 }
 
@@ -497,9 +573,9 @@ blockquote {
 
 /* !------------------------date-card---------------------- */
 
-.date-today {
+/* .date-today {
     padding-bottom: 2.75rem;
-}
+} */
 
 .container {}
 
@@ -638,6 +714,7 @@ blockquote {
 .container {}
 
 .quote-container {
+    margin-top: 20px;
     text-align: right;
     display: flex;
     justify-content: flex-end;
@@ -681,6 +758,40 @@ blockquote {
 
 @media screen and (min-width: 1280px) {}
 
+
+@media screen and (min-width: 1280px) {
+    .quote-section {
+        position: absolute;
+        bottom: 0;
+        right: 30px;
+        width: auto;
+        max-width: 400px;
+        padding: 0;
+        z-index: 10;
+    }
+
+    .quote-container {
+        justify-content: flex-end;
+        text-align: right;
+        margin-bottom: 50px;
+        margin-top: 20px;
+    }
+
+    .quote {
+        font-size: var(--quote-size);
+        color: var(--quote-color);
+        font-style: italic;
+        line-height: 1.4;
+    }
+
+    .quote-author {
+        display: block;
+        margin-top: 0.5rem;
+        font-size: var(--quote-author-size);
+        color: var(--quote-color);
+    }
+}
+
 /* !------вихід за межі контейнера----- */
 
 
@@ -688,7 +799,6 @@ blockquote {
     .weather-wrapper-desktop {
         position: absolute;
         top: 252px;
-        /* або по макету */
         right: 0;
         width: 411px;
         display: flex;
@@ -711,8 +821,6 @@ blockquote {
 @media screen and (min-width: 1280px) {
     .date-card-wrapper {
         position: absolute;
-        /* top: 0; */
-        /* або по макету */
         left: 0;
         bottom: 0;
         width: 624px;
@@ -741,7 +849,7 @@ blockquote {
     }
 
     .date-space-filler {
-        height: 226px;
+        height: 260px;
         /* або скільки займає date-card */
         display: block;
     }
@@ -750,12 +858,26 @@ blockquote {
 
 /* !---------five-days------------------------ */
 
+@media screen and (min-width: 1280px) {
+    .five-day-btns {
+        margin-top: 30px;
+    }
+}
+
 .five-day-btns>.five-day-btn {
     background-color: var(--current-btn-bg);
 }
 
+
 .five-day-btns>.today-btn {
     background-color: var(--today-btn-bg);
+    transition: 500ms;
+}
+
+.five-day-btns>.today-btn:hover {
+    transform: scale(1.1);
+    background-color: var(--accent-color);
+    color: #fff;
 }
 
 .five-days {
@@ -787,6 +909,17 @@ blockquote {
     margin-bottom: 1.25rem;
 }
 
+@media screen and (min-width: 768px) {
+    .five-days .forecast-card-list {
+        justify-content: space-between;
+    }
+}
+
+@media screen and (min-width: 1280px) {
+    .five-days .forecast-card-list {
+        justify-content: space-around;
+    }
+}
 
 .five-days .forecast-card-item {
     width: 64px;
@@ -795,6 +928,12 @@ blockquote {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+@media screen and (min-width: 768px) {
+    .five-days .forecast-card-item {
+        min-width: 100px;
+    }
 }
 
 .forecast-card .forecast-card-city {
@@ -872,10 +1011,16 @@ blockquote {
     background-color: transparent;
     font-size: var(--forecast-card-more-info-font-size-mob);
     color: var(--forecast-card-min-color);
-    text-decoration-line: underline;
-    font-family: inherit;
     font-weight: bold;
-    opacity: 0.5;
+    transition: color 500ms;
+}
+
+.forecast-card-details-btn:hover {
+    color: #FF6B09;
+}
+
+.forecast-card-details-btn.active {
+    color: #FF6B09;
 }
 
 .forecast-card-pointers {
@@ -885,6 +1030,14 @@ blockquote {
     gap: 3.125rem;
 
 }
+
+@media screen and (min-width: 768px) {
+    .forecast-card-pointers {
+        display: none;
+    }
+}
+
+
 
 .forecast-card-pointer {
     border: none;
@@ -956,12 +1109,19 @@ blockquote {
 
 }
 
-.forecast-info-item {
-    max-width: 120px;
+.forecast-info-list .swiper-slide {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+
+.forecast-info-item {
+    max-width: 120px;
+    /* display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; */
     gap: 0.5rem;
     margin-top: 2.07rem;
     padding: 1.25rem 1rem;
@@ -971,6 +1131,7 @@ blockquote {
 }
 
 .forecast-info-item .time {
+    align-items: center;
     font-size: var(--forecast-card-more-info-font-size-mob);
     color: var(--forecast-card-more-info-font-color);
 }
@@ -1001,8 +1162,7 @@ blockquote {
 .forecast-additional-info-list {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: left;
+    justify-content: left;
     gap: 0.25rem;
 }
 
@@ -1045,7 +1205,7 @@ blockquote {
     z-index: 10;
     background-color: #fff;
     border-radius: 10px;
-    padding: 0.5rem 0;
+    /* padding: 0.5rem 0; */
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     display: none;
     max-height: 200px;
@@ -1062,3 +1222,6 @@ blockquote {
 .city-suggestions li:hover {
     background-color: #f1f1f1;
 }
+
+
+/* ! */
