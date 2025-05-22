@@ -77,7 +77,7 @@ async function handlerSuggestions(event) {
 
         try {
             const currentWeather = await getCurrentWeather(lat, lon);
-            console.log("currentWeather:", currentWeather);
+            // console.log("currentWeather:", currentWeather);
 
             if (document.body.classList.contains("page-today")) {
                 renderCurrentWeather(currentWeather);
@@ -225,14 +225,15 @@ function groupForecastByDay(list) {
 
 function getDailySummary(forecastGrouped) {
     const summary = [];
-
     for (let day in forecastGrouped) {
+
         const entries = forecastGrouped[day];
 
         const tempsMin = entries.map(entry => entry.main.temp_min);
         const tempsMax = entries.map(entry => entry.main.temp_max);
 
         const averageEntry = entries.reduce((closest, item) => {
+
             const hour = new Date(item.dt * 1000).getHours();
             return Math.abs(hour - 12) < Math.abs(new Date(closest.dt * 1000).getHours() - 12) ? item : closest;
         });
@@ -321,7 +322,7 @@ function renderWetherFiveDays(data) {
         return '';
     }
 
-    return data.map((day) => {
+    return data.slice(0, 5).map((day) => {
         const currentDay = new Date(day.dt * 1000);
         return ` <li class="forecast-card-item swiper-slide" data-date="${day.dt}">
                             <span class="day">${currentDay.toLocaleDateString('en-Us', { weekday: "long" })}</span>
