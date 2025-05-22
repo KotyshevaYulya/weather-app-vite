@@ -5,7 +5,7 @@
             "destination": "/five-days.html"
         },
         {
-            "source": "/",
+            "source": "/index",
             "destination": "/index.html"
         }
     ]
